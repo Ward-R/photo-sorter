@@ -12,11 +12,17 @@ file_path_raw.mkdir(parents=True, exist_ok=True)
 def photo_sort(file_source, file_dest):
 
     for file in file_source.iterdir():
-        if file.suffix.lower() == '.jpg':
-            move(file, file_path_jpg)
-        elif file.suffix.lower() == '.raf':
-            move(file, file_path_raw)
+        # Skip hidden directory files.
+        if file.name.startswith('.'):
+            continue
         else:
-            print("file wrong type")
+            print(f"Processing: {file.name}, type: {file.suffix}")
+
+            if file.suffix.lower() == '.jpg':
+                move(file, file_path_jpg)
+            elif file.suffix.lower() == '.raf':
+                move(file, file_path_raw)
+            else:
+                print("file wrong type")
 
 photo_sort(file_source, file_dest)
